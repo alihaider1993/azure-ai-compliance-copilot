@@ -235,6 +235,7 @@ if uploaded_file:
             "Missing": "🔴 Missing",
             "Partial": "🟡 Partial",
             "Requires Verification": "🔵 Requires Verification",
+            "Potential Gap": "🟣 Potential Gap",
         }
 
         # -----------------------------

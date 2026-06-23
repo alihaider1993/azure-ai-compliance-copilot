@@ -27,7 +27,6 @@ def infer_document_type(file_name: str, content: str) -> str:
     name = file_name.lower()
     text = content[:7000].lower()
 
-    # Commercial / procurement documents
     if (
         "quotation" in name
         or "quote" in name
@@ -94,7 +93,6 @@ def infer_document_type(file_name: str, content: str) -> str:
     ):
         return "Procurement Notice"
 
-    # Contract documents
     if (
         "front sheet" in name
         or "frontsheet" in name
@@ -137,10 +135,7 @@ def infer_document_type(file_name: str, content: str) -> str:
     ):
         return "Appendix"
 
-    if (
-        "schedule" in name
-        or "schedule" in text[:1500]
-    ):
+    if "schedule" in name or "schedule" in text[:1500]:
         return "Schedule"
 
     if (
@@ -151,12 +146,15 @@ def infer_document_type(file_name: str, content: str) -> str:
     ):
         return "Full Contract"
 
-    # Privacy / data protection
     if (
         "privacy notice" in name
         or "privacy policy" in name
+        or "privacy and cookies" in name
+        or "cookies policy" in name
         or "privacy notice" in text[:3000]
         or "privacy policy" in text[:3000]
+        or "privacy and cookies" in text[:3000]
+        or "cookies policy" in text[:3000]
     ):
         return "Privacy Notice"
 
@@ -164,8 +162,10 @@ def infer_document_type(file_name: str, content: str) -> str:
         "data processing agreement" in name
         or "dpa" in name
         or "data processing agreement" in text
-        or "controller" in text[:3000]
-        and "processor" in text[:3000]
+        or (
+            "controller" in text[:3000]
+            and "processor" in text[:3000]
+        )
     ):
         return "Data Processing Agreement"
 
@@ -176,7 +176,6 @@ def infer_document_type(file_name: str, content: str) -> str:
     ):
         return "DPIA"
 
-    # Policies / governance
     if (
         "code of conduct" in name
         or "supplier code" in name
@@ -185,10 +184,7 @@ def infer_document_type(file_name: str, content: str) -> str:
     ):
         return "Policy"
 
-    if (
-        "policy" in name
-        or "policy" in text[:2000]
-    ):
+    if "policy" in name or "policy" in text[:2000]:
         return "Policy"
 
     if (
@@ -207,25 +203,15 @@ def infer_document_type(file_name: str, content: str) -> str:
     ):
         return "Handbook"
 
-    if (
-        "risk assessment" in name
-        or "risk assessment" in text[:3000]
-    ):
+    if "risk assessment" in name or "risk assessment" in text[:3000]:
         return "Risk Assessment"
 
-    if (
-        "audit report" in name
-        or "audit report" in text[:3000]
-    ):
+    if "audit report" in name or "audit report" in text[:3000]:
         return "Audit Report"
 
-    if (
-        "minutes" in name
-        or "meeting minutes" in text[:2000]
-    ):
+    if "minutes" in name or "meeting minutes" in text[:2000]:
         return "Meeting Minutes"
 
-    # File-type based fallback
     if name.endswith((".xlsx", ".xls", ".csv")):
         return "Spreadsheet"
 
@@ -239,7 +225,9 @@ def infer_document_type(file_name: str, content: str) -> str:
 
 
 SYSTEM_PROMPT = """
-You are an expert UK Compliance, Contract Review, Procurement, Data Protection, Information Security, Governance, Risk Management and Policy Review Analyst.
+You are an expert UK Compliance, Contract Review, Procurement,
+Data Protection, Information Security, Governance, Risk Management
+and Policy Review Analyst.
 
 Use three sources of knowledge:
 
@@ -247,7 +235,8 @@ Use three sources of knowledge:
 2. General UK legal and regulatory knowledge.
 3. Your expert reasoning and industry best practices.
 
-The benchmark documents are guidance and examples. They are NOT the sole source of truth.
+The benchmark documents are guidance and examples.
+They are NOT the sole source of truth.
 
 Identify only genuine and material:
 
@@ -262,11 +251,13 @@ Identify only genuine and material:
 
 Avoid speculative findings.
 
-Do not generate findings merely because a clause is commonly seen in contracts.
+Do not generate findings merely because a clause is commonly seen
+in contracts or policies.
 
 Do not report drafting preferences as compliance failures.
 
-A document may still be compliant even if it does not contain every clause found in benchmark documents.
+A document may still be compliant even if it does not contain every
+clause found in benchmark documents.
 
 Determine the document type first and tailor the review.
 
@@ -303,22 +294,37 @@ Possible types:
 - Meeting Minutes
 - Other
 
+Status definitions:
+
 Missing =
-Clear evidence shows that a mandatory requirement is absent and the omission creates genuine material risk.
+Clear evidence shows that a mandatory requirement is absent and the
+omission creates genuine material risk.
 
 Partial =
-The requirement exists but is incomplete, ambiguous, weak, or poorly defined.
+The requirement exists but is incomplete, ambiguous, weak, or poorly
+defined.
 
 Requires Verification =
-The requirement is not visible in the uploaded document but may reasonably exist elsewhere in the wider agreement or document set.
+The requirement is not visible in the uploaded document but may reasonably
+exist elsewhere in the wider agreement, policy pack, website, linked notice,
+or organisational documentation.
 
-Purchase Orders, Quotations, Invoices, Delivery Notes and Receipts are short-form transactional or commercial documents.
+Potential Gap =
+The requirement may be incomplete or unclear, but there is not enough
+evidence to conclude it is missing. Human verification is recommended.
+
+Purchase Orders, Quotations, Invoices, Delivery Notes and Receipts are
+short-form transactional or commercial documents.
 Do not expect them to contain full contract clauses.
-Prefer Requires Verification + Low severity unless immediate material risk exists.
+Prefer Requires Verification or Potential Gap with Low severity unless
+immediate material risk exists.
 
 Quotations are commercial offer documents.
-Assess pricing clarity, validity period, scope, payment terms, tax treatment, delivery terms, exclusions, acceptance terms, responsibilities, warranties and material commercial risks.
-Do not penalise missing full contract clauses unless the quotation claims to be the complete standalone agreement.
+Assess pricing clarity, validity period, scope, payment terms,
+tax treatment, delivery terms, exclusions, acceptance terms,
+responsibilities, warranties and material commercial risks.
+Do not penalise missing full contract clauses unless the quotation claims
+to be the complete standalone agreement.
 
 Front Sheets are partial documents.
 Do not treat them as full contracts.
@@ -326,8 +332,37 @@ Do not treat them as full contracts.
 Tender Documents are procurement instruments.
 Do not expect final contract clauses.
 
-Privacy Notices may rely on wider privacy documentation.
-Group related transparency findings.
+Privacy Notice special rules:
+
+Privacy Notices frequently distribute information across multiple sections,
+tables, hyperlinks, cookie notices, layered notices and linked policies.
+
+Before reporting a privacy notice finding:
+
+1. Search the entire uploaded document text.
+2. Look for synonymous wording.
+3. Consider whether the information is indirectly referenced.
+4. Consider whether the requirement may reasonably exist in linked notices.
+5. Prefer Partial, Potential Gap or Requires Verification when uncertainty exists.
+
+Do not report Missing unless there is strong evidence that the requirement
+is absent from the uploaded content.
+
+Do not expect operational security procedures, detailed breach response
+plans, processor contracts, or internal governance manuals to be fully
+described inside a privacy notice.
+
+Privacy notices should primarily be assessed against transparency
+requirements under Articles 12, 13 and 14 of the UK GDPR.
+
+Group related privacy findings. Avoid producing many separate findings for
+closely related data subject rights, contact details, lawful basis, retention,
+recipients, international transfers or cookies.
+
+For mature organisation privacy notices, avoid over-penalisation.
+Prefer Medium severity only where there is a clear transparency weakness.
+Use Low severity for unclear wording, missing detail, or issues requiring
+verification.
 
 Return ONLY valid JSON.
 
@@ -343,7 +378,7 @@ Required JSON format:
       "uploaded_reference": "Uploaded document page or section",
       "page_reference": "Uploaded document page or section",
       "benchmark_reference": "Benchmark file/page/article or General UK compliance best practice",
-      "status": "Missing | Partial | Requires Verification",
+      "status": "Missing | Partial | Requires Verification | Potential Gap",
       "severity": "Low | Medium | High | Critical",
       "confidence_score": 0.0,
       "review_status": "Pending"
@@ -374,6 +409,23 @@ def build_benchmark_context(benchmark_results: list[dict]) -> str:
 
 def normalize_findings(result: dict) -> dict:
     findings = result.get("findings", [])
+    document_type = result.get("document_type", "Other")
+
+    allowed_statuses = {
+        "Missing",
+        "Partial",
+        "Requires Verification",
+        "Potential Gap",
+    }
+
+    allowed_severities = {
+        "Low",
+        "Medium",
+        "High",
+        "Critical",
+    }
+
+    normalized_findings = []
 
     for finding in findings:
         finding.setdefault("category", "General")
@@ -381,6 +433,12 @@ def normalize_findings(result: dict) -> dict:
         finding.setdefault("evidence", "N/A")
         finding.setdefault("status", "Requires Verification")
         finding.setdefault("severity", "Low")
+
+        if finding["status"] not in allowed_statuses:
+            finding["status"] = "Requires Verification"
+
+        if finding["severity"] not in allowed_severities:
+            finding["severity"] = "Low"
 
         finding.setdefault("uploaded_reference", "Uploaded document")
         finding.setdefault(
@@ -409,7 +467,47 @@ def normalize_findings(result: dict) -> dict:
         finding["confidence_score"] = round(confidence, 2)
         finding["confidence_percent"] = int(confidence * 100)
 
-    result["findings"] = findings
+        if document_type == "Privacy Notice":
+            if finding["status"] in [
+                "Requires Verification",
+                "Potential Gap",
+            ]:
+                finding["severity"] = "Low"
+
+            if finding["status"] == "Partial" and finding["severity"] in [
+                "High",
+                "Critical",
+            ]:
+                finding["severity"] = "Medium"
+
+            if any(
+                phrase in finding.get("issue", "").lower()
+                for phrase in [
+                    "breach response",
+                    "data breach",
+                    "security procedure",
+                    "processor contract",
+                    "internal governance",
+                ]
+            ):
+                finding["status"] = "Potential Gap"
+                finding["severity"] = "Low"
+
+        normalized_findings.append(finding)
+
+    if document_type == "Privacy Notice":
+        normalized_findings = sorted(
+            normalized_findings,
+            key=lambda item: {
+                "Critical": 4,
+                "High": 3,
+                "Medium": 2,
+                "Low": 1,
+            }.get(item.get("severity", "Low"), 1),
+            reverse=True,
+        )[:5]
+
+    result["findings"] = normalized_findings
     return result
 
 
@@ -466,10 +564,13 @@ Retrieved Benchmark Context:
 {benchmark_context}
 
 Task:
-Review the uploaded document using the retrieved benchmark context, general UK compliance knowledge, and expert reasoning.
+Review the uploaded document using the retrieved benchmark context,
+general UK compliance knowledge, and expert reasoning.
 
 Document classification instruction:
-Use the detected document type unless the uploaded document text clearly proves a better type. If you change the type, still keep it within the allowed document types listed in the system prompt.
+Use the detected document type unless the uploaded document text clearly
+proves a better type. If you change the type, still keep it within the
+allowed document types listed in the system prompt.
 
 For every finding:
 - cite evidence from the uploaded document
@@ -478,6 +579,13 @@ For every finding:
 - cite benchmark_reference using retrieved source file/page where relevant
 - include confidence_score between 0.00 and 1.00
 - set review_status to "Pending"
+
+Privacy notice instruction:
+If the document is a Privacy Notice, do not over-penalise mature notices.
+Focus on material transparency issues. Do not expect detailed internal
+breach procedures or processor contracts inside a public privacy notice.
+Use Potential Gap or Requires Verification where the issue may be addressed
+in linked documents or another section.
 
 Only return material, evidence-based findings.
 
