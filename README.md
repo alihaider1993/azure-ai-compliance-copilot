@@ -323,19 +323,11 @@ PDF / DOCX / Excel Export
 
 **Syed Ali Haider**
 
-* Microsoft Certified: Azure AI Engineer Associate (AI-102)
-* PMP Certified
-* Harvard CORe
-* IBM Data Science Professional Certificate
-* Engineering Sciences Graduate
+I am transitioning into AI roles and built this project to demonstrate real-world AI engineering capabilities, including cloud architecture, prompt engineering, RAG, document intelligence, multi-agent orchestration, and enterprise security practices.
 
-I am transitioning into Applied AI Engineering and Azure AI Solutions development and built this project to demonstrate real-world AI engineering capabilities, including cloud architecture, prompt engineering, RAG, document intelligence, multi-agent orchestration, and enterprise security practices.
+[LinkedIn](https://www.linkedin.com/in/syed-ali-haider-43777821) · 
+[GitHub](https://github.com/alihaider1993) · 
 
-🔗 LinkedIn:
-https://www.linkedin.com/in/syed-ali-haider-43777821
-
-🔗 GitHub:
-https://github.com/alihaider1993
 
 ---
 
