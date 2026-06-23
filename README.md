@@ -14,19 +14,25 @@ Enterprise-style multi-agent AI Compliance & Document Review Copilot built using
 
 ---
 
-# 🎯 Project Overview
+## 🎯 Project Overview
 
-The application performs end-to-end document review and compliance analysis using a multi-agent architecture powered by:
+Many organisations still rely on manual reviews of contracts, policies, procurement documents, and privacy notices. These reviews can be time-consuming, inconsistent, and heavily dependent on individual expertise.
 
-- Azure OpenAI GPT-4o
-- Azure AI Document Intelligence
-- Azure AI Search
-- Azure Blob Storage
-- Azure Cosmos DB (Serverless)
-- Streamlit
-- Managed Identity Authentication
+This project demonstrates how Azure AI and Generative AI can accelerate document reviews by combining:
 
-The system provides:
+* Multi-Agent Architecture
+* Retrieval-Augmented Generation (RAG)
+* Document Intelligence and OCR
+* Vector Search
+* Evidence-Based Compliance Analysis
+* Risk Assessment and Recommendations
+* Enterprise Security using Managed Identity
+
+The objective is not to replace legal, procurement, or compliance professionals but to build an AI copilot that assists subject matter experts by surfacing potential risks and supporting faster, more consistent decision-making.
+
+---
+
+## ✨ Key Features
 
 ✅ Compliance Findings
 
@@ -40,373 +46,115 @@ The system provides:
 
 ✅ Confidence Scoring
 
-✅ Document References
+✅ Uploaded Document References
 
 ✅ Benchmark References
 
-✅ Dashboard Analytics
+✅ Interactive Dashboard Analytics
 
-✅ PDF/DOCX/Excel Report Export
+✅ PDF / DOCX / Excel Export
 
----
-
-# 📸 Application Features
-
-## Executive Summary Dashboard
-
-Displays:
-
-- Compliance Score
-- Risk Level
-- Risk Score
-- Document Type
-- Findings Count
+✅ Managed Identity Authentication
 
 ---
 
-## Compliance Findings
+## 📸 Demo & Screenshots
 
-Each finding contains:
+📸 Application Screenshots:
 
-- Category
-- Severity
-- Status
-- Confidence Score
-- Issue Description
-- Evidence
-- Uploaded Document Reference
-- Benchmark Reference
-- Review Status
+https://github.com/alihaider1993/azure-ai-compliance-copilot/blob/main/README_screenshots_section.md
+
+🎥 Loom Demo:
+
+(Add your Loom link here)
 
 ---
 
-## Recommendations
-
-Automatically generates remediation recommendations with:
-
-- Related Issue
-- Recommendation
-- Priority Level
-
----
-
-## Dashboard Analytics
-
-Interactive visualisations:
-
-- Findings by Severity
-- Findings by Status
-- Findings by Category
-
----
-
-## Export Reports
-
-Generate reports in:
-
-- PDF
-- Microsoft Word (DOCX)
-- Microsoft Excel (XLSX)
-
----
-
-# 📄 Supported Documents
+## 📄 Supported Documents
 
 | Type | Supported |
-|------|------------|
-| PDF | ✅ |
-| DOCX | ✅ |
-| TXT | ✅ |
-| XLSX | ✅ |
-| XLS | ✅ |
-| CSV | ✅ |
-| PPTX | ✅ |
-| PNG | ✅ |
-| JPG | ✅ |
-| JPEG | ✅ |
+| ---- | --------- |
+| PDF  | ✅         |
+| DOCX | ✅         |
+| TXT  | ✅         |
+| XLSX | ✅         |
+| XLS  | ✅         |
+| CSV  | ✅         |
+| PPTX | ✅         |
+| PNG  | ✅         |
+| JPG  | ✅         |
+| JPEG | ✅         |
 
 ---
 
-# 🏗️ Solution Architecture
+## 🏗️ Solution Architecture
 
-```text
-                     User Upload
-                           │
-                           ▼
-                Streamlit Frontend
-                           │
-                           ▼
-       ┌─────────────────────────────┐
-       │ Agent 1                     │
-       │ Document Processor          │
-       └─────────────────────────────┘
-                           │
-                           ├── Upload File
-                           │
-                           ├── Azure Blob Storage
-                           │
-                           ├── Azure Document Intelligence
-                           │
-                           └── Cosmos DB Metadata Storage
-                           │
-                           ▼
-       ┌─────────────────────────────┐
-       │ Agent 2                     │
-       │ Compliance Analyzer         │
-       └─────────────────────────────┘
-                           │
-                           ├── Document Classification
-                           ├── Generate Embeddings
-                           ├── Azure AI Search Retrieval
-                           ├── Benchmark Retrieval
-                           └── GPT-4o Compliance Analysis
-                           │
-                           ▼
-       ┌─────────────────────────────┐
-       │ Agent 3                     │
-       │ Risk Assessor               │
-       └─────────────────────────────┘
-                           │
-                           ├── Risk Score
-                           ├── Risk Level
-                           ├── Compliance Score
-                           ├── Severity Distribution
-                           └── Dashboard Metrics
-                           │
-                           ▼
-       ┌─────────────────────────────┐
-       │ Agent 4                     │
-       │ Recommendation Generator    │
-       └─────────────────────────────┘
-                           │
-                           └── Remediation Recommendations
-                           │
-                           ▼
-       ┌─────────────────────────────┐
-       │ Agent 5                     │
-       │ Report Generator            │
-       └─────────────────────────────┘
-                           │
-                           ├── Cosmos DB Persistence
-                           ├── Executive Summary
-                           ├── Findings
-                           ├── Recommendations
-                           └── Export Reports
-                           │
-                           ▼
-                  Streamlit Dashboard
-```
+![Architecture](docs/architecture.png)
 
 ---
 
-# 🤖 Multi-Agent Architecture
+## 🤖 Multi-Agent Workflow
 
-## Agent 1 – Document Processor
-
-Responsibilities:
-
-- Generate document UUID
-- Upload document to Blob Storage
-- Extract text using Azure Document Intelligence
-- Store metadata in Cosmos DB
-- Return extracted data
-
-Stores:
-
-- document_id
-- file_name
-- blob_name
-- blob_url
-- page_count
-- extraction_status
-- created_at
+| Agent   | Responsibility                                                                           |
+| ------- | ---------------------------------------------------------------------------------------- |
+| Agent 1 | Document ingestion, Blob upload, OCR extraction, metadata persistence                    |
+| Agent 2 | Document classification, embeddings generation, benchmark retrieval, compliance analysis |
+| Agent 3 | Risk scoring, compliance scoring, dashboard metrics                                      |
+| Agent 4 | Remediation recommendation generation                                                    |
+| Agent 5 | Executive summary creation, report generation, Cosmos DB persistence                     |
 
 ---
 
-## Agent 2 – Compliance Analyzer
+## ☁️ Azure Services Used
 
-Responsibilities:
-
-- Infer document type
-- Generate embeddings
-- Retrieve benchmark content
-- Perform evidence-based compliance analysis
-- Generate findings
-
-Outputs:
-
-- category
-- issue
-- evidence
-- uploaded_reference
-- benchmark_reference
-- status
-- severity
-- confidence_score
-- review_status
-
-Supported document types:
-
-- Full Contract
-- Master Service Agreement
-- Supplier Agreement
-- Purchase Order
-- Quotation
-- Commercial Proposal
-- Invoice
-- Delivery Note
-- Receipt
-- Tender Document
-- Procurement Notice
-- Policy
-- SOP
-- Handbook
-- Privacy Notice
-- Data Processing Agreement
-- Spreadsheet
-- Presentation
-- Risk Assessment
-- Audit Report
-- Other
-
----
-
-## Agent 3 – Risk Assessor
-
-Calculates:
-
-- Risk Score
-- Risk Level
-- Compliance Score
-- Severity Distribution
-- Category Distribution
-- Status Distribution
-- Red Flag Count
-
-Risk Levels:
-
-- Low
-- Medium
-- High
-- Critical
-
-Compliance Score:
-
-```text
-100 − (Risk Score × 10)
-```
-
----
-
-## Agent 4 – Recommendation Generator
-
-Generates remediation actions:
-
-```json
-{
-  "issue": "...",
-  "recommendation": "...",
-  "priority": "Low | Medium | High"
-}
-```
-
----
-
-## Agent 5 – Report Generator
-
-Creates final report:
-
-```json
-{
-  "id": "...",
-  "document_id": "...",
-  "file_name": "...",
-  "framework": "...",
-  "document_type": "...",
-  "created_at": "...",
-  "executive_summary": {},
-  "findings": [],
-  "recommendations": []
-}
-```
-
-Persists reports inside Cosmos DB.
-
----
-
-# ☁️ Azure Architecture
-
-## Azure OpenAI
+### Azure OpenAI (GPT-4o)
 
 Purpose:
 
-- Compliance analysis
-- Risk analysis
-- Recommendations generation
-- Document classification
+* Compliance analysis
+* Risk assessment
+* Recommendation generation
+* Document classification
+
+---
+
+### Azure AI Document Intelligence
+
+Purpose:
+
+* OCR extraction
+* Layout extraction
+* Table extraction
+* Page extraction
 
 Model:
 
-- GPT-4o
-
-Authentication:
-
-- Managed Identity
-- DefaultAzureCredential
+* prebuilt-layout
 
 ---
 
-## Azure AI Document Intelligence
+### Azure AI Search
 
 Purpose:
 
-- OCR
-- Layout extraction
-- Table extraction
-- Page extraction
-
-Model:
-
-- prebuilt-layout
-
-Authentication:
-
-- Managed Identity
+* Vector search
+* Benchmark retrieval
+* Retrieval-Augmented Generation (RAG)
+* Semantic search
 
 ---
 
-## Azure AI Search
+### Azure Blob Storage
 
 Purpose:
 
-- Vector search
-- Benchmark retrieval
-- RAG grounding
-- Semantic search
-
-Authentication:
-
-- Managed Identity
+* Store uploaded documents
+* Archive reviews
+* Maintain document URLs
 
 ---
 
-## Azure Blob Storage
-
-Purpose:
-
-- Store uploaded documents
-- Maintain document URLs
-- Archive document reviews
-
-Blob Naming Convention:
-
-```text
-reviews/{document_id}_{filename}
-```
-
----
-
-## Azure Cosmos DB (Serverless)
+### Azure Cosmos DB (Serverless)
 
 Database:
 
@@ -416,61 +164,23 @@ compliance-db
 
 Containers:
 
-### documents
-
-Stores:
-
-- document_id
-- file_name
-- blob_url
-- page_count
-- upload_date
-- extraction_status
-
-### findings
-
-Stores:
-
-- finding_id
-- document_id
-- finding details
-- confidence score
-- references
-
-### reviews
-
-Stores:
-
-- risk score
-- risk level
-- compliance score
-- dashboard metrics
-
-### reports
-
-Stores:
-
-- executive summary
-- findings
-- recommendations
-- framework
-- document type
+* documents
+* findings
+* reviews
+* reports
 
 ---
 
-# 🔒 Security
+### Authentication
 
-This solution uses:
-
-- Managed Identity
-- DefaultAzureCredential
-- No hardcoded API keys
-- Environment variable configuration
-- Principle of least privilege
+* Managed Identity
+* DefaultAzureCredential
+* No hardcoded secrets
+* Principle of Least Privilege
 
 ---
 
-# 📊 Compliance Frameworks Supported
+## 📊 Compliance Frameworks Supported
 
 1. General Policy Review
 2. UK GDPR
@@ -480,7 +190,7 @@ This solution uses:
 
 ---
 
-# 📂 Project Structure
+## 📂 Project Structure
 
 ```text
 azure-ai-compliance-copilot/
@@ -518,6 +228,10 @@ azure-ai-compliance-copilot/
 │   ├── create_search_index.py
 │   └── ingest_benchmark_documents.py
 │
+├── docs/
+│   ├── architecture.png
+│   └── screenshots/
+│
 └── data/
     ├── reports/
     └── sample_documents/
@@ -525,12 +239,12 @@ azure-ai-compliance-copilot/
 
 ---
 
-# 🚀 Local Setup
+## 🚀 Local Setup
 
 Clone repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/azure-ai-compliance-copilot.git
+git clone https://github.com/alihaider1993/azure-ai-compliance-copilot.git
 cd azure-ai-compliance-copilot
 ```
 
@@ -568,83 +282,67 @@ streamlit run app.py
 
 ---
 
-# 🎬 Demo Workflow
+## 🎬 Demo Workflow
 
+```text
 Upload Document
-
-↓
-
+        ↓
 Run Compliance Review
-
-↓
-
+        ↓
 Executive Summary
-
-↓
-
-Red Flag Summary
-
-↓
-
+        ↓
 Compliance Findings
-
-↓
-
+        ↓
 Recommendations
-
-↓
-
+        ↓
 Dashboard Analytics
-
-↓
-
+        ↓
 PDF / DOCX / Excel Export
+```
 
 ---
 
-# 🧠 Skills Demonstrated
+## 🧠 Skills Demonstrated
 
-- Azure AI Engineering
-- Generative AI Applications
-- Retrieval-Augmented Generation (RAG)
-- Document Intelligence
-- Multi-Agent Architecture
-- Vector Search
-- Responsible AI Prompt Engineering
-- Cloud Architecture
-- Managed Identity Authentication
-- Cosmos DB Design
-- Streamlit Application Development
-- Production-style Reporting Systems
+* Azure AI Engineering
+* Generative AI Applications
+* Retrieval-Augmented Generation (RAG)
+* Document Intelligence
+* Multi-Agent Architecture
+* Vector Search
+* Responsible AI Prompt Engineering
+* Cloud Architecture
+* Managed Identity Authentication
+* Cosmos DB Design
+* Streamlit Application Development
+* Production-Style Reporting Systems
+
+---
+
+## 👨‍💻 About Me
+
+**Syed Ali Haider**
+
+* Microsoft Certified: Azure AI Engineer Associate (AI-102)
+* PMP Certified
+* Harvard CORe
+* IBM Data Science Professional Certificate
+* Engineering Sciences Graduate
+
+I am transitioning into Applied AI Engineering and Azure AI Solutions development and built this project to demonstrate real-world AI engineering capabilities, including cloud architecture, prompt engineering, RAG, document intelligence, multi-agent orchestration, and enterprise security practices.
+
+🔗 LinkedIn:
+https://www.linkedin.com/in/syed-ali-haider-43777821
+
+🔗 GitHub:
+https://github.com/alihaider1993
 
 ---
 
-## 👨‍💻 About Me & Why I Built This
+## ⚠️ Disclaimer
 
-My name is **Syed Ali Haider**. I'm transitioning into AI roles. 
+This project is a portfolio demonstration of an AI-powered compliance copilot. Findings generated by the system are intended to assist document reviews and should be validated by legal, procurement, or compliance professionals before any decisions are made.
 
-Many organisations still rely on manual reviews of contracts, policies, quotations, SOPs, procurement documents, and privacy notices. These reviews are often time-consuming, inconsistent, and depend heavily on individual expertise.
-
-I built this project to explore how Generative AI and Azure AI services can assist compliance and document review processes by:
-
-* Automating document ingestion and analysis
-* Reducing the time required to identify risks and compliance gaps
-* Providing evidence-based findings and recommendations
-* Improving consistency in document reviews
-* Demonstrating how multi-agent AI systems can orchestrate complex business workflows
-* Building a production-style Azure AI solution that follows enterprise security practices such as Managed Identity authentication and cloud-native persistence
-
-This project also served as an opportunity to deepen my practical experience with Azure AI services, Retrieval-Augmented Generation (RAG), document intelligence, vector search, and multi-agent architectures.
-
-The objective was not to replace legal, procurement, or compliance professionals, but to build an AI copilot that can assist subject matter experts by surfacing potential risks, highlighting relevant evidence, and accelerating the review process while keeping humans in control of final decisions.
-
-As someone transitioning into Applied AI Engineering and Azure AI Solutions development, I wanted to build an end-to-end enterprise-style application that demonstrates real-world AI engineering skills, including cloud architecture, prompt engineering, responsible AI practices, data persistence, and user-centric application design.
-
-[LinkedIn](https://www.linkedin.com/in/syed-ali-haider-43777821) · 
-[GitHub](https://github.com/alihaider1993) · 
 
 ---
-## Disclaimer
-
-This project is a portfolio demonstration of an AI-powered compliance copilot. It should be reviewed, secured and tested further before use.
 
