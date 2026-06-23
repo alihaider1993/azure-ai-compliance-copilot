@@ -1,0 +1,15 @@
+streamlit
+python-dotenv
+azure-identity
+azure-storage-blob
+azure-ai-documentintelligence
+azure-search-documents
+azure-cosmos
+openai
+pandas
+reportlab
+pydantic
+python-docx
+pandas
+openpyxl
+python-pptx
