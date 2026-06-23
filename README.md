@@ -619,5 +619,32 @@ PDF / DOCX / Excel Export
 
 ---
 
-# 👤 Author
+## 👨‍💻 About Me & Why I Built This
+
+My name is **Syed Ali Haider**. I'm transitioning into AI roles. 
+
+Many organisations still rely on manual reviews of contracts, policies, quotations, SOPs, procurement documents, and privacy notices. These reviews are often time-consuming, inconsistent, and depend heavily on individual expertise.
+
+I built this project to explore how Generative AI and Azure AI services can assist compliance and document review processes by:
+
+* Automating document ingestion and analysis
+* Reducing the time required to identify risks and compliance gaps
+* Providing evidence-based findings and recommendations
+* Improving consistency in document reviews
+* Demonstrating how multi-agent AI systems can orchestrate complex business workflows
+* Building a production-style Azure AI solution that follows enterprise security practices such as Managed Identity authentication and cloud-native persistence
+
+This project also served as an opportunity to deepen my practical experience with Azure AI services, Retrieval-Augmented Generation (RAG), document intelligence, vector search, and multi-agent architectures.
+
+The objective was not to replace legal, procurement, or compliance professionals, but to build an AI copilot that can assist subject matter experts by surfacing potential risks, highlighting relevant evidence, and accelerating the review process while keeping humans in control of final decisions.
+
+As someone transitioning into Applied AI Engineering and Azure AI Solutions development, I wanted to build an end-to-end enterprise-style application that demonstrates real-world AI engineering skills, including cloud architecture, prompt engineering, responsible AI practices, data persistence, and user-centric application design.
+
+[LinkedIn](https://www.linkedin.com/in/syed-ali-haider-43777821) · 
+[GitHub](https://github.com/alihaider1993) · 
+
+---
+## Disclaimer
+
+This project is a portfolio demonstration of an AI-powered compliance copilot. It should be reviewed, secured and tested further before use.
 
