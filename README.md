@@ -89,7 +89,7 @@ https://github.com/alihaider1993/azure-ai-compliance-copilot/blob/main/README_sc
 
 ## 🏗️ Solution Architecture
 
-![Architecture](docs/architecture.png)
+![Architecture](https://github.com/alihaider1993/azure-ai-compliance-copilot/blob/main/docs/screenshots/architecture.png)
 
 ---
 
