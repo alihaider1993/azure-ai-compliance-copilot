@@ -62,7 +62,7 @@ The objective is not to replace legal, procurement, or compliance professionals 
 
 📸 Application Screenshots:
 
-https://github.com/alihaider1993/azure-ai-compliance-copilot/blob/main/README_screenshots_section.md
+[https://github.com/alihaider1993/azure-ai-compliance-copilot/blob/main/README_screenshots_section.md]
 
 🎥 Loom Demo:
 
