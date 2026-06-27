@@ -14,6 +14,14 @@ Enterprise-style multi-agent AI Compliance & Document Review Copilot built using
 
 ---
 
+### 🎥 Watch the 3-Minute Demo
+
+[![Watch the demo](docs/screenshots/02-executive-summary.png)](https://www.loom.com/share/ac3b7d1a95184501add29fd221e6c97a)
+
+**[▶ Click to watch on Loom](https://www.loom.com/share/ac3b7d1a95184501add29fd221e6c97a)** · [View full screenshot gallery](./docs/screenshots/README.md)
+
+---
+
 ## 🎯 Project Overview
 
 Many organisations still rely on manual reviews of contracts, policies, procurement documents, and privacy notices. These reviews can be time-consuming, inconsistent, and heavily dependent on individual expertise.
