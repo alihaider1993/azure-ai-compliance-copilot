@@ -65,7 +65,7 @@ The objective is not to replace legal, procurement, or compliance professionals 
 
 🎥 Loom Demo:
 
-(Add your Loom link here)
+(https://www.loom.com/share/ac3b7d1a95184501add29fd221e6c97a)
 
 ---
 
