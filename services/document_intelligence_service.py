@@ -3,6 +3,7 @@ from pathlib import Path
 import pandas as pd
 from docx import Document
 from pptx import Presentation
+from pypdf import PdfReader
 
 from azure.identity import DefaultAzureCredential
 from azure.ai.documentintelligence import DocumentIntelligenceClient
@@ -59,6 +60,46 @@ def extract_with_document_intelligence(
         "pages": pages,
         "tables": [],
         "content": result.content or "",
+    }
+
+
+MIN_TEXT_CHARS_PER_PAGE = 50
+
+
+def extract_pdf(file_path: str) -> dict:
+    """
+    Used for PDFs.
+
+    Reads the embedded text layer locally. Falls back to
+    Document Intelligence (OCR) for scanned PDFs, since the
+    free tier only analyses the first two pages of a document.
+    """
+
+    reader = PdfReader(file_path)
+
+    pages = [
+        {
+            "page_number": page_number,
+            "text": page.extract_text() or "",
+        }
+        for page_number, page in enumerate(
+            reader.pages,
+            start=1,
+        )
+    ]
+
+    total_chars = sum(len(page["text"].strip()) for page in pages)
+
+    if total_chars < MIN_TEXT_CHARS_PER_PAGE * max(len(pages), 1):
+        return extract_with_document_intelligence(
+            file_path,
+            "application/pdf",
+        )
+
+    return {
+        "pages": pages,
+        "tables": [],
+        "content": "\n".join(page["text"] for page in pages),
     }
 
 
@@ -186,10 +227,7 @@ def extract_document_from_file(
 
     # PDFs
     if extension == ".pdf":
-        return extract_with_document_intelligence(
-            file_path,
-            "application/pdf",
-        )
+        return extract_pdf(file_path)
 
     # Images
     elif extension == ".png":

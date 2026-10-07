@@ -1,0 +1,7 @@
+[client]
+# Show visitors a generic error message; full tracebacks go to the server log.
+showErrorDetails = "none"
+
+[server]
+# Matches the 5 MB check in app.py, so the uploader rejects large files up front.
+maxUploadSize = 5

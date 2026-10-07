@@ -28,6 +28,9 @@ def chat_completion(system_prompt: str, user_prompt: str) -> str:
             {"role": "user", "content": user_prompt},
         ],
         temperature=0.2,
+        # Azure counts max_tokens against the deployment's tokens-per-minute
+        # limit up front; leaving it unset reserves the model maximum.
+        max_tokens=4000,
     )
 
     return response.choices[0].message.content

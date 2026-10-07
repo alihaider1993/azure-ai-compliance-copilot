@@ -7,9 +7,10 @@ azure-search-documents
 azure-cosmos
 openai
 pandas
+plotly
+pypdf
 reportlab
 pydantic
 python-docx
-pandas
 openpyxl
 python-pptx

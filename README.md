@@ -1,7 +1,7 @@
 # 📋 AI Compliance & Document Review Copilot
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python)
-![Azure OpenAI](https://img.shields.io/badge/Azure%20OpenAI-GPT--4o-0078D4?logo=microsoft-azure)
+![Azure OpenAI](https://img.shields.io/badge/Azure%20OpenAI-GPT--4.1%20mini-0078D4?logo=microsoft-azure)
 ![Azure Document Intelligence](https://img.shields.io/badge/Document%20Intelligence-Azure-0078D4?logo=microsoft-azure)
 ![Azure Cosmos DB](https://img.shields.io/badge/Cosmos%20DB-Serverless-0078D4?logo=microsoft-azure)
 ![Azure AI Search](https://img.shields.io/badge/Azure%20AI%20Search-RAG-0078D4?logo=microsoft-azure)
@@ -13,6 +13,8 @@
 Enterprise-style multi-agent AI Compliance & Document Review Copilot built using Azure AI services. The platform enables users to upload policies, contracts, quotations, SOPs, handbooks, spreadsheets, presentations, and images and receive evidence-based compliance findings, risk assessments, recommendations, and downloadable reports.
 
 ---
+
+**🔗 Live demo:** https://compliance-copilot-5wcht.azurewebsites.net — hosted on the Azure App Service free tier, so the first load after a quiet period can take up to a minute.
 
 ### 🎥 Watch the 3-Minute Demo
 
@@ -105,7 +107,7 @@ The objective is not to replace legal, procurement, or compliance professionals 
 
 ## ☁️ Azure Services Used
 
-### Azure OpenAI (GPT-4o)
+### Azure OpenAI (GPT-4.1 mini)
 
 Purpose:
 

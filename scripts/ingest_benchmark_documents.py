@@ -13,6 +13,9 @@ from services.search_service import upload_documents
 
 BENCHMARK_FOLDER = ROOT_DIR / "benchmark"
 
+# Keeps each Search upload request well under the 16 MB limit.
+UPLOAD_BATCH_SIZE = 100
+
 
 def chunk_text(text: str, chunk_size: int = 2500, overlap: int = 300):
     chunks = []
@@ -110,7 +113,10 @@ def ingest_benchmark_documents():
                 }
             )
 
-        upload_documents(documents)
+        for start in range(0, len(documents), UPLOAD_BATCH_SIZE):
+            upload_documents(
+                documents[start:start + UPLOAD_BATCH_SIZE]
+            )
 
         print(
             f"Uploaded {len(documents)} chunks for {file_path.name}"
